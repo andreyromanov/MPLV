@@ -42,7 +42,7 @@
                     </div>
                     <!-- /.card-body -->
                 </div>
-                <!-- /.card --> editmode: true,
+                <!-- /.card -->
 
             </div>
         </div>
@@ -124,6 +124,7 @@
                 users: {},
 
                 form: new Form({
+                    id: '',
                     name: '',
                     email: '',
                     password: '',
@@ -136,8 +137,23 @@
 
         methods: {
 
-            updateUser(){
-
+            updateUser() {
+                this.$Progress.start();
+                this.form.put('api/user/' + this.form.id)
+                    .then(() => {
+                        //success
+                        $('#addNew').modal('hide')
+                        swal.fire(
+                            'Updated!',
+                            'Your file has been updated.',
+                            'success'
+                        )
+                         this.$Progress.finish();
+                          Fire.$emit('AfterCreated');
+                    })
+                    .catch(() => {
+                        this.$Progress.fail();
+                    })
             },
 
             editModal(user) {
