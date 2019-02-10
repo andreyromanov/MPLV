@@ -177,11 +177,17 @@
                           <textarea v-model="form.bio" class="form-control" id="inputExperience" placeholder="Experience"></textarea>
                         </div>
                       </div>
-                      <div class="form-group">
+                       
+
+                        <div class="col-sm-10">
+                          <input type="file" @change="updateProfile" name="photo" class="" id="inputSkills">
+                        </div>
+                     
+                      <div class="form-group mt-2">
                         <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
 
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                          <input type="passpord" class="form-control" name="passpord" id="inputSkills" placeholder="Passort">
                         </div>
                       </div>
                       <div class="form-group">
@@ -195,7 +201,7 @@
                       </div>
                       <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                          <button type="submit" class="btn btn-danger">Submit</button>
+                          <button @click.prevent="updateInfo" type="submit" class="btn btn-danger">Submit</button>
                         </div>
                       </div>
                     </form>
@@ -229,6 +235,30 @@
 
         mounted() {
             console.log('Component mounted.')
+        },
+
+        methods: {
+          
+          updateInfo(){
+            this.form.put('api/profile')
+            .then(()=>{
+
+            })
+            .catch(()=>{
+
+            });
+          },
+
+          updateProfile(e){
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            
+            reader.onloadend = (file) => {
+            this.form.photo = reader.result;
+            }
+            reader.readAsDataURL(file);
+
+            }
         },
         
         created() {
