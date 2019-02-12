@@ -2093,6 +2093,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2112,27 +2119,38 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     updateInfo: function updateInfo() {
-      this.form.put('api/profile').then(function () {}).catch(function () {});
+      var _this = this;
+
+      this.$Progress.start();
+      this.form.put('api/profile').then(function () {
+        _this.$Progress.finish();
+      }).catch(function () {
+        _this.$Progress.fail();
+      });
     },
     updateProfile: function updateProfile(e) {
-      var _this = this;
+      var _this2 = this;
 
       var file = e.target.files[0];
       var reader = new FileReader();
 
-      reader.onloadend = function (file) {
-        _this.form.photo = reader.result;
-      };
+      if (file['size'] < 2111775) {
+        reader.onloadend = function (file) {
+          _this2.form.photo = reader.result;
+        };
 
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      } else {
+        swal.fire('Failed to Upload!', 'More than 2MB.', 'warning');
+      }
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
     axios.get("api/profile").then(function (_ref) {
       var data = _ref.data;
-      return _this2.form.fill(data);
+      return _this3.form.fill(data);
     });
   }
 });
@@ -60105,33 +60123,45 @@ var render = function() {
                         [_vm._v("Email")]
                       ),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-sm-10" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.form.email,
-                              expression: "form.email"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: {
-                            type: "email",
-                            id: "inputEmail",
-                            placeholder: "Email"
-                          },
-                          domProps: { value: _vm.form.email },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
+                      _c(
+                        "div",
+                        { staticClass: "col-sm-10" },
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form.email,
+                                expression: "form.email"
                               }
-                              _vm.$set(_vm.form, "email", $event.target.value)
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "is-invalid": _vm.form.errors.has("email")
+                            },
+                            attrs: {
+                              type: "email",
+                              id: "inputEmail",
+                              placeholder: "Email"
+                            },
+                            domProps: { value: _vm.form.email },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(_vm.form, "email", $event.target.value)
+                              }
                             }
-                          }
-                        })
-                      ])
+                          }),
+                          _vm._v(" "),
+                          _c("has-error", {
+                            attrs: { form: _vm.form, field: "email" }
+                          })
+                        ],
+                        1
+                      )
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
@@ -60183,9 +60213,50 @@ var render = function() {
                       })
                     ]),
                     _vm._v(" "),
-                    _vm._m(3),
+                    _c("div", { staticClass: "form-group mt-2" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-2 control-label",
+                          attrs: { for: "inputSkills" }
+                        },
+                        [_vm._v("Password")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-10" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.password,
+                              expression: "form.password"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "password",
+                            name: "password",
+                            placeholder: "Password"
+                          },
+                          domProps: { value: _vm.form.password },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "password",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
                     _vm._v(" "),
-                    _vm._m(4),
+                    _vm._m(3),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c("div", { staticClass: "col-sm-offset-2 col-sm-10" }, [
@@ -60343,7 +60414,9 @@ var staticRenderFns = [
       _c("ul", { staticClass: "timeline timeline-inverse" }, [
         _c("li", { staticClass: "time-label" }, [
           _c("span", { staticClass: "bg-danger" }, [
-            _vm._v("\n                      10 Feb. 2014\n                    ")
+            _vm._v(
+              "\n                                        10 Feb. 2014\n                                    "
+            )
           ])
         ]),
         _vm._v(" "),
@@ -60363,7 +60436,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("div", { staticClass: "timeline-body" }, [
               _vm._v(
-                "\n                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,\n                        weebly ning heekya handango imeem plugg dopplr jibjab, movity\n                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle\n                        quora plaxo ideeli hulu weebly balihoo...\n                      "
+                "\n                                            Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,\n                                            weebly ning heekya handango imeem plugg dopplr jibjab, movity\n                                            jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle\n                                            quora plaxo ideeli hulu weebly balihoo...\n                                        "
               )
             ]),
             _vm._v(" "),
@@ -60394,7 +60467,9 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("h3", { staticClass: "timeline-header no-border" }, [
               _c("a", { attrs: { href: "#" } }, [_vm._v("Sarah Young")]),
-              _vm._v(" accepted your friend request\n                      ")
+              _vm._v(
+                " accepted\n                                            your friend request\n                                        "
+              )
             ])
           ])
         ]),
@@ -60410,12 +60485,14 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("h3", { staticClass: "timeline-header" }, [
               _c("a", { attrs: { href: "#" } }, [_vm._v("Jay White")]),
-              _vm._v(" commented on your post")
+              _vm._v(
+                " commented on your\n                                            post"
+              )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "timeline-body" }, [
               _vm._v(
-                "\n                        Take me to your leader!\n                        Switzerland is small and neutral!\n                        We are more like Germany, ambitious and misunderstood!\n                      "
+                "\n                                            Take me to your leader!\n                                            Switzerland is small and neutral!\n                                            We are more like Germany, ambitious and misunderstood!\n                                        "
               )
             ]),
             _vm._v(" "),
@@ -60434,7 +60511,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("li", { staticClass: "time-label" }, [
           _c("span", { staticClass: "bg-success" }, [
-            _vm._v("\n                      3 Jan. 2014\n                    ")
+            _vm._v(
+              "\n                                        3 Jan. 2014\n                                    "
+            )
           ])
         ]),
         _vm._v(" "),
@@ -60484,40 +60563,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group mt-2" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-sm-2 control-label",
-          attrs: { for: "inputSkills" }
-        },
-        [_vm._v("Skills")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-10" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            type: "passpord",
-            name: "passpord",
-            id: "inputSkills",
-            placeholder: "Passort"
-          }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
       _c("div", { staticClass: "col-sm-offset-2 col-sm-10" }, [
         _c("div", { staticClass: "checkbox" }, [
           _c("label", [
             _c("input", { attrs: { type: "checkbox" } }),
             _vm._v(" I agree to the "),
-            _c("a", { attrs: { href: "#" } }, [_vm._v("terms and conditions")])
+            _c("a", { attrs: { href: "#" } }, [
+              _vm._v(
+                "terms and\n                                                    conditions"
+              )
+            ])
           ])
         ])
       ])
