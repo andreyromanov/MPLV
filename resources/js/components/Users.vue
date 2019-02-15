@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row pt-3">
+        <div class="row pt-3" v-if="$gate.isAdmin()">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -148,8 +148,8 @@
                             'Your file has been updated.',
                             'success'
                         )
-                         this.$Progress.finish();
-                          Fire.$emit('AfterCreated');
+                        this.$Progress.finish();
+                        Fire.$emit('AfterCreated');
                     })
                     .catch(() => {
                         this.$Progress.fail();
@@ -204,9 +204,14 @@
             },
 
             loadUsers() {
-                axios.get("api/user").then(({
-                    data
-                }) => (this.users = data.data));
+
+                if (this.$gate.isAdmin()) {
+
+                    axios.get("api/user").then(({
+                        data
+                    }) => (this.users = data.data));
+
+                }
             },
             createUser() {
                 this.$Progress.start();
